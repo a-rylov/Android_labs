@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rylov.artspace.model.ArtPiece
 import com.rylov.artspace.ui.theme.ArtSpaceTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,9 +36,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ArtScreen() {
     val artworks = listOf(
-        ArtPiece(R.drawable.art1, "Girl with a Pearl Earring", "Johannes Vermeer", "1665"),
-        ArtPiece(R.drawable.art2, "The Arnolfini Portrait", "Jan van Eyck", "1434"),
-        ArtPiece(R.drawable.art3, "Les Demoiselles d’Avignon", "Pablo Picasso", "1907")
+        ArtPiece(R.drawable.art1, "Big Clay #4", "Urs Fischer", "2021"),
+        ArtPiece(R.drawable.art2, "Mount Recyclemore", "Joe Rush", "2021"),
+        ArtPiece(R.drawable.art3, "Book Parthenon", "Marta Minujin", "2017")
     )
 
     var currentIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -145,8 +146,6 @@ private fun getPreviousIndex(currentIndex: Int, size: Int): Int {
 private fun getNextIndex(currentIndex: Int, size: Int): Int {
     return (currentIndex + 1) % size
 }
-
-data class ArtPiece(val imageRes: Int, val title: String, val artist: String, val year: String)
 
 @Preview(showBackground = true)
 @Composable
