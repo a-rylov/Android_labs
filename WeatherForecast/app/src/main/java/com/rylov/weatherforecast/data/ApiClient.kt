@@ -1,13 +1,17 @@
 package com.rylov.weatherforecast.data
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 
 object ApiClient {
-    private const val CITY_API_BASE_URL = "https://api.api-ninjas.com/v1/"
-    private const val WEATHER_API_BASE_URL = "https://api.open-meteo.com/v1/"
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -18,15 +22,15 @@ object ApiClient {
         .build()
 
     private val retrofitCity = Retrofit.Builder()
-        .baseUrl(CITY_API_BASE_URL)
+        .baseUrl("https://api.api-ninjas.com/v1/")
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 
     private val retrofitWeather = Retrofit.Builder()
-        .baseUrl(WEATHER_API_BASE_URL)
+        .baseUrl("https://api.open-meteo.com/v1/")
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 
     private val cityApiService: CityApiService = retrofitCity.create(CityApiService::class.java)
